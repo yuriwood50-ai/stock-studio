@@ -1,0 +1,74 @@
+{
+  "_안내": "고정 항목은 두 플랫폼 조건이라 프로그램이 켜질 때마다 제자리로 돌려놔요. 고쳐도 되는 건 여백px · 알파임계값 · 유사도기준 · 서버포트 · 결과폴더 · 프롬프트문장 · AI · 그림체예요. 고친 뒤에는 프로그램을 다시 켜야 반영돼요. API 열쇠는 여기 넣지 마세요 — .env 파일의 OPENAI_API_KEY로만 읽어요.",
+  "고정": {
+    "생성가로": 2880,
+    "생성세로": 2880,
+    "색상": "sRGB",
+    "해상도dpi": 120,
+    "최소크기MP": 4,
+    "최대긴축px": 9800,
+    "최소짧은축px": 700,
+    "최대용량MB": 45,
+    "생성최대한변px": 3840,
+    "생성최대총픽셀": 8294400,
+    "생성최대비율": 3
+  },
+  "고정_왜": {
+    "생성가로": "2880 = 16×180. API가 16의 배수를 요구하고 2880² = 8,294,400 으로 총 픽셀 상한과 정확히 같다. 3000은 16의 배수가 아니고(187.5) 9,000,000px으로 상한을 705,600px 넘는다 — 미확인, 첫 API 요청으로 확인",
+    "생성세로": "위와 같음. 미리캔버스 상한 9800px 아래",
+    "색상": "어도비스톡 sRGB · 미리캔버스 RGB — 겹치는 값",
+    "해상도dpi": "미리캔버스 요소 가이드가 120dpi를 요구",
+    "최소크기MP": "어도비스톡 하한. 못 넘으면 제외가 아니라 미리캔버스만 올린다 (7장 10번)",
+    "최소짧은축px": "미리캔버스 하한. 못 넘으면 어디에도 못 올리므로 제외한다 (7장 9번)",
+    "최대긴축px": "미리캔버스 상한. 2880에서 시작해 자르기만 하므로 걸릴 일은 없지만 남겨 둔다",
+    "최대용량MB": "어도비스톡 45MB · 미리캔버스 50MB — 엄격한 쪽",
+    "생성최대한변px": "gpt-image-2 한 변 상한 — 미확인, 첫 API 요청으로 확인",
+    "생성최대총픽셀": "gpt-image-2 총 픽셀 상한. 세 곳 중 가장 엄격하다 — 미확인, 첫 API 요청으로 확인",
+    "생성최대비율": "gpt-image-2 최대 가로세로비. 생성 제약이지 검사 규칙이 아니다 — 미확인"
+  },
+  "여백px": 12,
+  "알파임계값": 26,
+  "유사도기준": 10,
+  "서버포트": 3900,
+  "결과폴더": "결과",
+  "프롬프트문장": {
+    "구성": "Composition: one complete object, centered and fully visible with no cropping, shown at an angle that gives convincing volume and depth, clean crisp outer edge for background removal, no background scene, no props.",
+    "품질": "Accurate proportions and believable construction, interior linework that describes the object's real parts, controlled tonal shading that gives the form volume, material-specific surface detail. Visually rich but not busy.",
+    "공통금지": "text, letters, numbers, logos, trademarks, watermarks, signatures, recognizable brands, resemblance to real people, extra objects, cropped parts, duplicated parts, flat clip-art look, generic icon shapes, uniform thick outlines, oversimplified geometry, plastic 3D rendering, cast shadow, glow, leftover background pixels, semi-transparent fringing"
+  },
+  "AI": {
+    "목록모델": "gpt-5-mini",
+    "이미지모델": "gpt-image-2",
+    "소재개수": 6,
+    "목록호출한도": 5,
+    "이미지품질": "high",
+    "이미지호출한도": 9,
+    "이미지출력단가달러백만토큰": 30
+  },
+  "그림체": [
+    {
+      "이름": "손그림동화",
+      "종류": "hand-drawn",
+      "스타일": "hand-drawn children's book illustration in colored pencil and watercolor, delicate graphite contours with varied weight, layered pigment with visible strokes, paper grain within the object, gentle tonal variation, muted warm palette of a few hues",
+      "금지": "plastic 3D render, photographic capture, flat vector look",
+      "검증": true,
+      "출처": "코드북 기본01"
+    },
+    {
+      "이름": "빈티지패브릭",
+      "종류": "hand-drawn",
+      "스타일": "vintage stationery illustration in colored pencil with light gouache washes, soft worn contours, desaturated aged-paper palette, low-contrast tonal variation, woven cloth weave and laid-paper grain, layered pigment",
+      "금지": "plastic 3D render, photographic capture, hard-edged vector shapes, high contrast",
+      "검증": true,
+      "출처": "코드북 기본02"
+    },
+    {
+      "이름": "백터아이콘",
+      "종류": "vector icon-style",
+      "스타일": "detailed vector illustration, crisp closed contours of consistent weight, restrained palette of a few hues with many value steps, smooth gradient shading from one light direction with specular highlights on curved surfaces, clean untextured surfaces where material reads from shading alone",
+      "금지": "photographic capture, hand-drawn wobble, crayon or pencil texture, flat fills with no shading",
+      "검증": true,
+      "출처": "프로토타입용으로 새로 쓴 것"
+    }
+  ]
+}

@@ -1,0 +1,22 @@
+{
+  "name": "stock-studio",
+  "version": "0.2.0",
+  "description": "스톡 스튜디오 — 내 컴퓨터에서 도는 세트 제작 프로그램",
+  "private": true,
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js",
+    "build": "node build.js",
+    "check": "node 점검.js"
+  },
+  "engines": {
+    "node": ">=24"
+  },
+  "dependencies": {
+    "adm-zip": "^0.5.16",
+    "busboy": "^1.6.0",
+    "jimp": "^1.6.0",
+    "png-chunks-encode": "^1.0.0",
+    "png-chunks-extract": "^1.0.0"
+  }
+}

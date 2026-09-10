@@ -1,0 +1,464 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>스톡 스튜디오</title>
+<link rel="icon" href="data:,">
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<header class="머리">
+  <div class="머리-왼쪽">
+    <div class="로고">S</div>
+    <div>
+      <div class="제품이름">스톡 스튜디오</div>
+      <div class="제품설명">내 컴퓨터에서 도는 세트 제작 프로그램</div>
+    </div>
+  </div>
+  <div class="머리-오른쪽">
+    <span class="열쇠라벨">이미지 연결 열쇠</span>
+    <div class="알약" title="다음 범위예요. 지금은 자리만 비워 뒀어요.">
+      <span class="알약-칸 켜짐">없음</span>
+      <span class="알약-칸">있음</span>
+    </div>
+  </div>
+</header>
+
+<div class="바탕">
+
+  <nav class="옆줄">
+    <div class="옆줄-제목">한 세트 만드는 순서</div>
+    <ol class="단계목록" id="단계목록">
+      <li><a class="단계" href="#/1" data-단계="1">
+        <span class="단계번호">1</span>
+        <span class="단계글"><b>입력</b><small>무엇을 · 어떤 그림체로</small></span>
+      </a></li>
+      <li><a class="단계" href="#/2" data-단계="2">
+        <span class="단계번호">2</span>
+        <span class="단계글"><b>목록</b><small>AI가 뽑고 · 사람이 고침</small></span>
+      </a></li>
+      <li><a class="단계" href="#/3" data-단계="3">
+        <span class="단계번호">3</span>
+        <span class="단계글"><b>제작</b><small id="단계3설명">받아서 놓기</small></span>
+      </a></li>
+      <li><a class="단계" href="#/4" data-단계="4">
+        <span class="단계번호">4</span>
+        <span class="단계글"><b>완료</b><small>폴더 열어 확인</small></span>
+      </a></li>
+    </ol>
+    <div class="옆줄-바닥">입력 → 목록 → 프롬프트<br>→ 이미지 → 폴더 저장</div>
+  </nav>
+
+  <main class="본문">
+
+    <!-- 화면 1 · 입력 -->
+    <section class="화면" data-화면="1" hidden>
+      <div class="화면머리">
+        <div>
+          <h1>무엇을 만들까요?</h1>
+          <p class="화면설명">만들고 싶은 세트의 방향을 적고 그림체를 고르세요. 여기 적으신 주제로 다음 단계에서 소재 목록을 뽑아요.</p>
+        </div>
+        <div class="쪽번호">1 / 4</div>
+      </div>
+
+      <!-- 무엇을 · 어떤 이름으로 -->
+      <section class="칸">
+        <label class="칸이름" for="만들것">만들고 싶은 것</label>
+        <input id="만들것" class="입력 큰입력" type="text"
+               placeholder="예: 손그림 사무실 소품 이미지" autocomplete="off">
+        <p class="칸안내">세트의 주제와 방향을 적어주세요. <b>여기 적은 범위 안에서만</b> 소재를 뽑아요. 결과의 세트 정보에도 함께 저장돼요.</p>
+
+        <div class="두칸">
+          <div>
+            <label class="칸이름" for="세트번호">세트번호</label>
+            <input id="세트번호" class="입력" type="text" autocomplete="off" spellcheck="false">
+            <p class="칸안내" id="세트번호안내">결과 폴더를 읽어 자동으로 매겼어요.</p>
+          </div>
+          <div>
+            <label class="칸이름" for="세트이름">세트 이름 <span class="곁말">폴더 이름이 돼요</span></label>
+            <input id="세트이름" class="입력" type="text" placeholder="예: 사무실 소품" autocomplete="off">
+            <p class="칸안내" id="폴더이름안내"></p>
+          </div>
+        </div>
+
+        <label class="칸이름" for="제출유형">제출 유형</label>
+        <select id="제출유형" class="입력"></select>
+        <p class="칸안내" id="제출유형안내"></p>
+      </section>
+
+      <!-- 그림체 -->
+      <section class="칸">
+        <h2 class="칸제목">그림체</h2>
+        <p class="칸설명">
+          고른 그림체는 이 세트 전체에 똑같이 들어가요. 낱장들이 한 세트로 보이게 하는 부분이에요.
+        </p>
+
+        <div class="칩줄" id="그림체칩"></div>
+
+        <!-- 그림체 추가 (3장) -->
+        <div class="더하기틀" id="그림체더하기" hidden>
+          <div class="두칸">
+            <div>
+              <label class="칸이름" for="새이름">그림체 이름 <span class="꼭">필수</span></label>
+              <input id="새이름" class="입력" type="text" placeholder="예: 빈티지 종이 콜라주" autocomplete="off">
+            </div>
+            <div>
+              <label class="칸이름" for="새종류">종류 <span class="곁말">비우면 hand-drawn</span></label>
+              <input id="새종류" class="입력" type="text" placeholder="hand-drawn" autocomplete="off" spellcheck="false">
+            </div>
+          </div>
+
+          <label class="칸이름" for="새스타일">스타일 <span class="꼭">필수</span> <span class="곁말">프롬프트 4줄에 들어가요</span></label>
+          <textarea id="새스타일" class="입력 여러줄" rows="3" spellcheck="false"
+                    placeholder="예: vintage paper collage, cut-paper edges, muted palette, subtle grain, consistent soft lighting"></textarea>
+
+          <label class="칸이름" for="새금지">금지 <span class="곁말">비워도 돼요 · 프롬프트 6줄 뒤에 붙어요</span></label>
+          <textarea id="새금지" class="입력 여러줄" rows="2" spellcheck="false"
+                    placeholder="예: glossy 3D, photorealism"></textarea>
+          <p class="칸안내">
+            금지에는 <b>화풍을 배제하는 말만</b> 적어요. 텍스트 · 로고 · 그림자 · 손 오류 같은 건
+            공통 금지가 이미 막고 있어요.
+          </p>
+
+          <p class="규칙문구">
+            소재 이름은 넣지 않고 재질 · 색감 · 빛 · 선 · 완성도만 적어요.<br>
+            소재는 2단계 목록에서 각각 붙습니다.
+          </p>
+
+          <p class="탈났어요" id="더하기탈" hidden></p>
+
+          <div class="더하기단추">
+            <button class="단추" id="더하기취소">취소</button>
+            <button class="단추 주단추" id="더하기저장">저장하고 쓰기</button>
+          </div>
+        </div>
+      </section>
+
+      <!-- 조립 미리보기 -->
+      <section class="칸">
+        <h2 class="칸제목">이렇게 합쳐져요</h2>
+        <p class="칸설명">
+          소재 하나에 붙는 여섯 줄이에요. <b>2·3줄만 소재마다 바뀌고</b> 나머지 네 줄은
+          세트 내내 글자 그대로 같아요.
+        </p>
+        <div class="미리보기" id="미리보기"></div>
+      </section>
+
+      <div class="바닥줄">
+        <span></span>
+        <button class="단추 주단추" data-이동="2">다음 · 소재 목록 입력</button>
+      </div>
+    </section>
+
+    <!-- 화면 2 · 목록 -->
+    <section class="화면" data-화면="2" hidden>
+      <div class="화면머리">
+        <div>
+          <h1>소재 목록을 준비해요</h1>
+          <p class="화면설명">화면 1에 적으신 내용으로 소재 목록을 뽑았어요. 마음에 안 드는 줄은 지우고, 표에서 바로 고치거나 아래에서 더할 수 있어요.</p>
+        </div>
+        <div class="쪽번호">2 / 4</div>
+      </div>
+
+      <section class="칸">
+        <div class="표머리">
+          <div>
+            <h2 class="칸제목">소재 목록 <span class="셈" id="목록수">0개</span></h2>
+            <p class="칸설명 짧게">
+              지운 항목은 다시 추천하지 않아요 · 남은 것만 다음 단계로 넘어가요
+            </p>
+          </div>
+          <div class="표머리단추">
+            <span class="AI딱지" id="AI상태">확인 중…</span>
+            <button class="단추 작은단추" id="다시뽑기">다시 뽑기</button>
+          </div>
+        </div>
+
+        <!-- 뽑는 동안 (4장) -->
+        <div class="뽑는중" id="뽑는중" hidden>
+          <span class="뱅글이"></span>
+          <span id="뽑는중글">소재 목록을 뽑고 있어요…</span>
+        </div>
+
+        <p class="탈났어요" id="목록탈" hidden></p>
+
+        <div class="표감쌈">
+          <table class="목록표">
+            <thead>
+              <tr>
+                <th class="번호칸">아이템번호</th>
+                <th>소재</th>
+                <th>형태 · 차별점</th>
+                <th class="지움칸"><span class="숨김글">삭제</span></th>
+              </tr>
+            </thead>
+            <tbody id="목록몸"></tbody>
+          </table>
+        </div>
+
+        <p class="빈목록" id="빈목록">
+          아직 비어 있어요. <b>다시 뽑기</b>를 누르거나 아래 <b>직접 적기</b>로 하나씩 적으세요.
+        </p>
+
+        <p class="칸안내">
+          <b>형태 · 차별점</b> 칸에는 시점 · 재질 · 색감 · 계절 · 분위기를 다 적어도 돼요.
+          프롬프트 3줄에 그대로 들어가요. 예: <span class="보기">3/4 시점 · 무광 금속 · 겨울 · 차분한 색</span>
+        </p>
+
+        <p class="칸안내" id="지운것안내"></p>
+      </section>
+
+      <!-- 더하기 — 몇 개 더 뽑기 · 직접 적기 (4장) -->
+      <section class="칸">
+        <h2 class="칸제목">더하기</h2>
+
+        <div class="더하기줄">
+          <div class="더하기쪽">
+            <label class="칸이름" for="더뽑을수">몇 개 더 뽑기</label>
+            <div class="붙은칸">
+              <input id="더뽑을수" class="입력 좁은입력" type="number" min="1" max="20" value="6">
+              <button class="단추" id="더뽑기">더 뽑기</button>
+            </div>
+            <p class="칸안내" id="더뽑기안내">지금 목록 아래에 이어붙여요. 지운 소재는 빼고 뽑아요.</p>
+          </div>
+
+          <div class="더하기쪽">
+            <label class="칸이름" for="직접소재">직접 적기</label>
+            <div class="붙은칸">
+              <input id="직접소재" class="입력" type="text" placeholder="소재" autocomplete="off">
+              <input id="직접형태" class="입력" type="text" placeholder="형태 · 차별점" autocomplete="off">
+              <button class="단추" id="직접더하기">더하기</button>
+            </div>
+            <p class="칸안내">소재만 적어도 돼요. 표에서 마저 채울 수 있어요.</p>
+          </div>
+        </div>
+      </section>
+
+      <div class="바닥줄">
+        <button class="단추" data-이동="1">이전</button>
+        <button class="단추 주단추" id="생성단추" data-이동="3" disabled>생성</button>
+      </div>
+    </section>
+
+    <!-- 화면 3 · 제작 -->
+    <section class="화면" data-화면="3" hidden>
+      <div class="화면머리">
+        <div>
+          <h1 id="화면3제목">이미지만 받아다 주세요</h1>
+          <p class="화면설명" id="화면3설명">프롬프트와 파일받기 문구를 만들어 뒀어요. ChatGPT에 붙여넣어 이미지를 받은 다음, 아래에 놓아주시면 나머지는 프로그램이 해요.</p>
+        </div>
+        <div class="쪽번호">3 / 4</div>
+      </div>
+
+      <!-- 모드 — 두 칸이 동시에 보이지 않는다 (6장) -->
+      <section class="칸 모드칸">
+        <div class="모드고르기">
+          <label class="모드하나">
+            <input type="radio" name="화면3모드" value="가져오기" id="모드가져오기">
+            <span class="모드글"><b>이미지 가져오기</b><small>ChatGPT에서 받은 파일을 끌어다 놓기</small></span>
+          </label>
+          <label class="모드하나" id="모드자동칸">
+            <input type="radio" name="화면3모드" value="자동" id="모드자동" checked>
+            <span class="모드글"><b>프로그램이 만들기</b><small>API 키로 직접 생성</small></span>
+          </label>
+        </div>
+        <p class="칸안내 모드막힘" id="모드막힘" hidden>
+          키가 없어서 지금은 만들 수 없어요. <b>.env</b> 에 OPENAI_API_KEY 를 넣어 주세요.
+        </p>
+      </section>
+
+      <div class="두쪽">
+        <!-- 왼쪽 — 프롬프트 목록. 두 모드 모두 그대로 둔다 -->
+        <section class="칸">
+          <div class="표머리">
+            <h2 class="칸제목">프롬프트 <span class="셈" id="프롬프트수">0개</span></h2>
+            <button class="단추 작은단추" id="전체복사">전체 복사</button>
+          </div>
+          <div class="프롬프트줄들" id="프롬프트줄들"></div>
+          <!-- 지난 세트의 점유율 — 다음 프롬프트를 손볼지 판단하는 값 (5-2장) -->
+          <p class="칸안내 지난점유율" id="지난점유율" hidden></p>
+        </section>
+
+        <!-- 오른쪽 · 가져오기 — 파일받기 문구 -->
+        <section class="칸" id="문구칸">
+          <div class="표머리">
+            <h2 class="칸제목">파일받기 문구</h2>
+            <button class="단추 작은단추" id="문구복사">복사</button>
+          </div>
+          <pre class="문구" id="파일받기문구"></pre>
+          <p class="칸안내">파일 이름을 미리 박아 뒀어요. 대화창이 이름을 헷갈릴 일이 없어요.</p>
+        </section>
+
+        <!-- 오른쪽 · 자동 — 만들기 (12장) -->
+        <section class="칸 만들기칸" id="만들기칸" hidden>
+          <h2 class="칸제목">프로그램이 만들기</h2>
+
+          <div class="만들기속" id="만들기시작속">
+            <p class="만들기줄" id="만들기무엇"></p>
+            <p class="만들기줄 흐리게" id="만들기규격"></p>
+            <button class="단추 주단추 큰단추" id="모두만들기">모두 만들기</button>
+            <p class="칸안내">
+              비용은 크기와 품질에 따라 달라져서 만들기 전에는 정확히 알 수 없어요.
+              실제 청구액은 OpenAI 대시보드가 기준이에요.
+            </p>
+          </div>
+
+          <!-- 진행 (E) -->
+          <div class="만들기속" id="만들기진행속" hidden>
+            <p class="만들기줄" id="진행글"></p>
+            <div class="막대"><div class="막대안" id="만들기막대"></div></div>
+            <ol class="만든목록" id="만든목록"></ol>
+            <button class="단추" id="만들기중단">중단</button>
+          </div>
+
+          <!-- 첫 장 확인 (D) -->
+          <div class="만들기속" id="첫장속" hidden>
+            <p class="만들기줄"><b>첫 장이 나왔어요.</b> 크기와 투명을 확인해 주세요.</p>
+            <div class="첫장그림"><img id="첫장그림" alt="첫 장"></div>
+            <p class="만들기줄 잰값" id="첫장잰값"></p>
+            <div class="더하기단추">
+              <button class="단추" id="첫장멈춤">여기서 멈추기</button>
+              <button class="단추 주단추" id="첫장이어">이대로 나머지 만들기</button>
+            </div>
+          </div>
+
+          <!-- 끝난 뒤 (F) -->
+          <div class="만들기속" id="만들기끝속" hidden>
+            <p class="만들기줄" id="끝글"></p>
+            <p class="만들기줄 흐리게" id="토큰글"></p>
+            <div class="더하기단추">
+              <button class="단추" id="이어만들기" hidden>남은 것 이어 만들기</button>
+              <button class="단추" id="실패다시" hidden>실패한 것 다시 만들기</button>
+              <button class="단추" id="다시만들기" hidden>다시 만들기</button>
+              <button class="단추 주단추" data-이동="4" id="다음단계로">다음 단계로</button>
+            </div>
+          </div>
+
+          <div class="만들기탈" id="만들기탈" hidden>
+            <p class="만들기탈말" id="만들기탈말"></p>
+            <pre class="문구 원문" id="만들기탈원문"></pre>
+            <p class="칸안내" id="만들기탈덧붙임"></p>
+          </div>
+        </section>
+      </div>
+
+      <!-- 아래 — 파일 받는 자리 -->
+      <section class="칸">
+        <div class="표머리">
+          <div>
+            <h2 class="칸제목">받은 이미지</h2>
+            <p class="칸설명 짧게">여러 장을 한 번에 놓아도 되고, 나눠서 놓아도 돼요. ZIP도 받아요.</p>
+          </div>
+          <div class="표머리단추">
+            <button class="단추 작은단추" id="다시짝짓기" hidden>짝 다시 맞추기</button>
+            <button class="단추 작은단추" id="모두버리기" hidden>모두 버리기</button>
+          </div>
+        </div>
+
+        <div class="놓는자리" id="놓는자리">
+          <p class="놓는말">받은 이미지를 여기에 놓아주세요</p>
+          <p class="놓는곁말">파일을 끌어다 놓거나 눌러서 고르세요 · PNG · JPG · ZIP</p>
+          <input type="file" id="파일고르기" multiple accept=".png,.jpg,.jpeg,.zip" hidden>
+        </div>
+
+        <div class="받은셈" id="받은셈" hidden>
+          <div class="받은글"><span id="받은수">0</span> / <span id="바라는수">0</span> 받음</div>
+          <div class="막대"><div class="막대안" id="막대안"></div></div>
+        </div>
+
+        <p class="탈났어요" id="파일탈" hidden></p>
+
+        <!-- 짝지은 결과 — 소재명 ↔ 미리보기 나란히 (6장 3번) -->
+        <div class="짝목록" id="짝목록"></div>
+
+        <div class="남은파일" id="남은파일칸" hidden>
+          <p class="칸안내"><b>짝을 못 지은 파일</b> — 정리하면 <span class="보기">03_이미지\_제외\</span> 에 원래 이름으로 남아요.</p>
+          <div class="남은것들" id="남은것들"></div>
+        </div>
+      </section>
+
+      <div class="바닥줄">
+        <button class="단추" data-이동="2">이전</button>
+        <button class="단추 주단추" id="정리시작">받았어요 · 정리 시작</button>
+      </div>
+    </section>
+
+    <!-- 화면 4 · 완료 -->
+    <section class="화면" data-화면="4" hidden>
+      <div class="화면머리">
+        <div class="완료머리">
+          <div class="체크">✓</div>
+          <div>
+            <h1>세트가 완성됐어요</h1>
+            <p class="화면설명" id="완료요약">아직 만든 세트가 없어요</p>
+          </div>
+        </div>
+        <div class="완료단추">
+          <button class="단추" id="새세트">새 세트 만들기</button>
+          <button class="단추 주단추" id="폴더열기">결과 폴더 열기</button>
+        </div>
+      </div>
+
+      <!-- 경로는 늘 복사할 수 있어야 한다. 탐색기가 안 열려도 주소창으로 갈 수 있게 (9장) -->
+      <div class="경로칸">
+        <div class="경로줄" id="결과경로"></div>
+        <button class="단추 작은단추" id="경로복사">복사</button>
+      </div>
+
+      <div class="만들기탈" id="경로탈" hidden>
+        <p class="만들기탈말" id="경로탈말"></p>
+        <pre class="문구 원문" id="경로탈경로"></pre>
+        <p class="칸안내" id="경로탈원문"></p>
+        <button class="단추 작은단추" id="탈경로복사">경로 복사</button>
+      </div>
+
+      <div class="아직없음" id="아직없음">
+        <div class="자리제목">아직 만든 세트가 없어요</div>
+        <p>화면 3에서 <b>받았어요 · 정리 시작</b>을 누르면 여기에 결과가 나와요.</p>
+      </div>
+
+      <div id="완료내용" hidden>
+        <div class="두쪽">
+          <!-- 폴더 구조 -->
+          <section class="칸">
+            <h2 class="칸제목">폴더 구조</h2>
+            <p class="칸설명 짧게">실제로 만들어진 것이에요.</p>
+            <div class="트리" id="트리"></div>
+          </section>
+
+          <!-- 통과한 이미지 -->
+          <section class="칸">
+            <h2 class="칸제목">03_이미지 안 <span class="셈" id="이미지셈"></span></h2>
+            <p class="칸설명 짧게">이미지 안의 격자무늬가 투명한 부분이에요. 바깥 흰 여백은 화면 칸이고 파일과 상관없어요.</p>
+            <div class="그림칸들" id="그림칸들"></div>
+          </section>
+        </div>
+
+        <div class="두쪽">
+          <!-- 처리 결과 -->
+          <section class="칸">
+            <h2 class="칸제목">프로그램이 처리한 것</h2>
+            <ul class="처리목록" id="처리목록"></ul>
+          </section>
+
+          <!-- 사람이 볼 것 -->
+          <section class="칸">
+            <h2 class="칸제목">폴더에서 사람이 볼 것</h2>
+            <ul class="처리목록" id="사람목록"></ul>
+          </section>
+        </div>
+      </div>
+    </section>
+
+  </main>
+</div>
+
+<script src="화면1.js"></script>
+<script src="화면2.js"></script>
+<script src="화면3.js"></script>
+<script src="화면4.js"></script>
+<script src="app.js"></script>
+</body>
+</html>

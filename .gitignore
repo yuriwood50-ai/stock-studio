@@ -1,0 +1,17 @@
+# API 열쇠 — 절대 올리지 않는다 (계획서 10장)
+.env
+.env.*
+
+# 본보기는 올린다
+!.env.example
+
+node_modules/
+
+# 만들어진 결과물과 손으로 넣는 입력물
+결과/
+투입/이미지/
+dist/
+coverage/
+*.log
+Thumbs.db
+.DS_Store

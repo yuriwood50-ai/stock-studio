@@ -41,6 +41,7 @@ const Busboy = require('busboy');
 
 const 웹폴더 = path.join(__dirname, 'web');
 const 포트더시도 = 10; // 쓰이고 있으면 하나씩 올려 잡는다 (계획서 2장)
+const 온라인배포 = Boolean(process.env.RENDER || process.env.RENDER_EXTERNAL_URL);
 
 const 형식 = {
   '.html': 'text/html; charset=utf-8',
@@ -897,8 +898,9 @@ function 켜기(포트, 남은시도, 설정) {
     process.exit(1);
   });
 
-  서버.listen(포트, '127.0.0.1', () => {
-    const 주소 = `http://localhost:${포트}`;
+  const 호스트 = 온라인배포 ? '0.0.0.0' : '127.0.0.1';
+  서버.listen(포트, 호스트, () => {
+    const 주소 = process.env.RENDER_EXTERNAL_URL || `http://localhost:${포트}`;
     console.log('');
     console.log('  스톡 스튜디오가 켜졌어요.');
     console.log('  주소: ' + 주소);
@@ -907,7 +909,7 @@ function 켜기(포트, 남은시도, 설정) {
     console.log('  브라우저가 저절로 열려요. 안 열리면 위 주소를 직접 넣으세요.');
     console.log('  끄려면 이 검은 창을 닫거나 Ctrl+C 를 누르세요.');
     console.log('');
-    브라우저열기(주소);
+    if (!온라인배포) 브라우저열기(주소);
   });
 }
 
@@ -918,4 +920,5 @@ function 브라우저열기(주소) {
 
 // 포트는 설정.json에서 온다 (계획서 10장). 초기값 3900
 const 시작설정 = 설정모듈.읽기();
-켜기(Number(시작설정.서버포트) || 3900, 포트더시도, 시작설정);
+const 시작포트 = Number(process.env.PORT) || Number(시작설정.서버포트) || 3900;
+켜기(시작포트, 온라인배포 ? 0 : 포트더시도, 시작설정);

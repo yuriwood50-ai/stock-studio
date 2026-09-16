@@ -88,6 +88,23 @@ if (!location.hash) location.replace('#/1');
 화면4.켜기();
 그리기();
 
+// 서버의 API 연결 상태를 상단에 표시한다.
+async function 열쇠상태확인() {
+  let 연결됨 = false;
+  try {
+    const 응답 = await fetch('/api/AI상태');
+    if (!응답.ok) throw new Error('API 상태 확인 실패');
+    const 답 = await 응답.json();
+    연결됨 = 답.연결됨 === true;
+  } catch {
+    연결됨 = false;
+  }
+  document.getElementById('열쇠없음').classList.toggle('켜짐', !연결됨);
+  document.getElementById('열쇠있음').classList.toggle('켜짐', 연결됨);
+}
+
+열쇠상태확인();
+
 // 화면 1을 켠다. 서버에서 설정과 그림체를 받아 온다
 화면1.켜기().catch((오류) => {
   console.error('화면 1을 켜지 못했어요:', 오류);

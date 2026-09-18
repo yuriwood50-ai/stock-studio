@@ -65,8 +65,40 @@ function 가기(번호) {
   location.hash = '#/' + 번호;
 }
 
+// ── 대문 ────────────────────────────────
+// 켜면 그림 한 장이 먼저 뜬다. 아무 데나 누르면 사라지고 화면 1이 나온다.
+// 열려 있는 동안에는 뒤쪽 단추와 방향키가 먹지 않는다.
+
+const 대문 = document.getElementById('대문');
+
+function 대문열렸나() {
+  return Boolean(대문) && !대문.hidden && !대문.classList.contains('닫힘');
+}
+
+function 대문닫기() {
+  if (!대문열렸나()) return;
+  대문.classList.add('닫힘');
+  가기(첫화면);
+  // 사라지는 동안 뒤쪽을 가리지 않게, 다 사라진 뒤에 치운다
+  setTimeout(() => {
+    대문.hidden = true;
+  }, 500);
+}
+
+if (대문) {
+  대문.addEventListener('click', 대문닫기);
+  대문.addEventListener('keydown', (일) => {
+    if (일.key === 'Enter' || 일.key === ' ' || 일.key === 'Escape') {
+      일.preventDefault();
+      대문닫기();
+    }
+  });
+  대문.focus({ preventScroll: true });
+}
+
 // 바닥 단추와 완료 화면 단추
 document.addEventListener('click', (일) => {
+  if (대문열렸나()) return;
   const 단추 = 일.target.closest('[data-이동]');
   if (!단추 || 단추.disabled) return;
   가기(단추.dataset.이동);
@@ -74,6 +106,7 @@ document.addEventListener('click', (일) => {
 
 // 왼쪽 · 오른쪽 방향키로도 넘어간다
 document.addEventListener('keydown', (일) => {
+  if (대문열렸나()) return;
   if (일.target.matches('input, textarea, select')) return;
   if (일.key === 'ArrowRight' && 지금화면() < 끝화면) 가기(지금화면() + 1);
   if (일.key === 'ArrowLeft' && 지금화면() > 첫화면) 가기(지금화면() - 1);

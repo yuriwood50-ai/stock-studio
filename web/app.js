@@ -31,6 +31,30 @@ const 단계들 = document.querySelectorAll('.단계');
 const 첫화면 = 1;
 const 끝화면 = 화면들.length;
 
+
+// 서버의 API 연결 상태를 머리 알약에 보여준다.
+// 서버가 에러를 돌려줄 때도 '없음'으로 떨어져야 한다 — 응답.ok 를 먼저 본다.
+async function 열쇠상태갱신() {
+  const 상태칸 = document.getElementById('열쇠상태');
+  const 없음 = document.getElementById('열쇠없음');
+  const 있음 = document.getElementById('열쇠있음');
+  if (!상태칸 || !없음 || !있음) return;
+
+  let 연결됨 = false;
+  try {
+    const 응답 = await fetch('/api/AI상태');
+    if (!응답.ok) throw new Error('API 상태 확인 실패');
+    const 답 = await 응답.json();
+    연결됨 = 답.연결됨 === true;
+  } catch {
+    연결됨 = false;
+  }
+
+  없음.classList.toggle('켜짐', !연결됨);
+  있음.classList.toggle('켜짐', 연결됨);
+  상태칸.title = 연결됨 ? 'AI가 연결되어 있어요.' : 'AI가 연결되어 있지 않아요.';
+}
+
 function 지금화면() {
   const 숫자 = parseInt(location.hash.replace('#/', ''), 10);
   return 숫자 >= 첫화면 && 숫자 <= 끝화면 ? 숫자 : 첫화면;
@@ -119,24 +143,8 @@ if (!location.hash) location.replace('#/1');
 화면2.켜기();
 화면3.켜기();
 화면4.켜기();
+열쇠상태갱신();
 그리기();
-
-// 서버의 API 연결 상태를 상단에 표시한다.
-async function 열쇠상태확인() {
-  let 연결됨 = false;
-  try {
-    const 응답 = await fetch('/api/AI상태');
-    if (!응답.ok) throw new Error('API 상태 확인 실패');
-    const 답 = await 응답.json();
-    연결됨 = 답.연결됨 === true;
-  } catch {
-    연결됨 = false;
-  }
-  document.getElementById('열쇠없음').classList.toggle('켜짐', !연결됨);
-  document.getElementById('열쇠있음').classList.toggle('켜짐', 연결됨);
-}
-
-열쇠상태확인();
 
 // 화면 1을 켠다. 서버에서 설정과 그림체를 받아 온다
 화면1.켜기().catch((오류) => {

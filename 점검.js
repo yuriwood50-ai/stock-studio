@@ -1116,6 +1116,7 @@ const 넣은문구 = [
 // 브라우저는 OpenAI를 직접 부르지 않는다 (10장)
 const 화면코드 = fsm
   .readdirSync(pathm.join(__dirname, 'web'))
+  .filter((이름) => !/\.(png|jpe?g|webp|ico)$/i.test(이름)) // 이미지는 글자로 읽지 않는다
   .map((이름) => fsm.readFileSync(pathm.join(__dirname, 'web', 이름), 'utf8'))
   .join('\n');
 확인('web/에 열쇠가 없다', /sk-[A-Za-z0-9_-]{10,}/.test(화면코드), false);
@@ -1135,7 +1136,12 @@ console.log('  폐기된 기준이 현재 코드에 남았나 (12장)');
 // 이 파일까지 훑는다. 그래서 위 검사들은 폐기된 글자를 직접 쓰지 않는다
 const 현재코드 = ['server.js', 'build.js', '점검.js']
   .concat(fsm.readdirSync(pathm.join(__dirname, 'core')).map((이름) => 'core/' + 이름))
-  .concat(fsm.readdirSync(pathm.join(__dirname, 'web')).map((이름) => 'web/' + 이름))
+  .concat(
+    fsm
+      .readdirSync(pathm.join(__dirname, 'web'))
+      .filter((이름) => !/\.(png|jpe?g|webp|ico)$/i.test(이름)) // 이미지는 글자로 읽지 않는다
+      .map((이름) => 'web/' + 이름)
+  )
   .map((상대) => ({ 이름: 상대, 글: fsm.readFileSync(pathm.join(__dirname, 상대), 'utf8') }));
 
 // 글자를 쪼개 둔다 — 이 줄 자체가 검사에 걸리지 않게
